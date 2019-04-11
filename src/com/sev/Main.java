@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 public class Main {
     private static List<Order> ordersList = new ArrayList<>();
     private static List<Order> buyOrdersList = new ArrayList<>();
+    private static List<Order> sellOrdersList = new ArrayList<>();
 
     public static List<Order> getOrdersList() {
         return ordersList;
@@ -34,21 +35,19 @@ public class Main {
         Main.sellOrdersList = sellOrdersList;
     }
 
-    private static List<Order> sellOrdersList = new ArrayList<>();
-
     public static void main(String[] args) {
+        System.out.println("Welcome to the Live Order Board!");
         liveOrder();
     }
 
     private static void liveOrder() {
-        System.out.println("Welcome to the Live Order Board!");
-        System.out.println("What would you like to do? Type 'view' to see orders list or 'add' to create an order.");
-        isViewOrAdd();
+        System.out.println("What would you like to do? Type 'view' to see orders list,'add' to create an order or 'remove' to remove an order.");
+        isViewOr();
     }
 
     private static void viewOrder() {
         System.out.println("These are our live orders.");
-        System.out.println("Would you like to view Buy or Sell orders?");
+        System.out.println("Would you like to view All, Buy or Sell orders?");
         isViewBuyOrSell();
     }
 
@@ -60,7 +59,7 @@ public class Main {
         int userId = Integer.parseInt(scan.nextLine());
         System.out.println("Order quantity? This is any integer number.");
         int quantity = Integer.parseInt(scan.nextLine());
-        System.out.println("Price?");
+        System.out.println("Price? For example: 29.95");
         double price = Double.parseDouble(scan.nextLine());
         System.out.println("Order type? It should be either BUY or SELL");
         String type = scan.nextLine();
@@ -73,7 +72,12 @@ public class Main {
     }
 
     private static void removeOrder() {
-
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Which order ID to remove?");
+        int index = Integer.parseInt(scan.nextLine());
+        ordersList.remove(index);
+        System.out.println("Order removed!");
+        liveOrder();
     }
 
     private static void isYesOrNo() {
@@ -90,16 +94,18 @@ public class Main {
         }
     }
 
-    private static void isViewOrAdd() {
+    private static void isViewOr() {
         Scanner scan = new Scanner(System.in);
         String viewOrAdd = scan.nextLine();
         if (viewOrAdd.toLowerCase().equals("view")) {
             viewOrder();
         } else if (viewOrAdd.toLowerCase().equals("add")){
             enterOrder();
+        } else if (viewOrAdd.toLowerCase().equals("remove")){
+            removeOrder();
         } else {
             System.out.println("There is something not right! Try again. View or Add?");
-            isViewOrAdd();
+            isViewOr();
         }
     }
 
@@ -107,9 +113,11 @@ public class Main {
         Scanner scan = new Scanner(System.in);
         String viewBuyOrSell = scan.nextLine();
         if (viewBuyOrSell.toLowerCase().equals("buy")) {
-            printBuyOders();
+            printBuyOrders();
         } else if (viewBuyOrSell.toLowerCase().equals("sell")){
             printSellOrders();
+        } else if (viewBuyOrSell.toLowerCase().equals("all")){
+            printAllOrders(ordersList);
         } else {
             System.out.println("There is something not right! Try again. View Buy or Sell orders?");
             isViewBuyOrSell();
@@ -124,7 +132,7 @@ public class Main {
         printOrders(sellOrdersList);
     }
 
-    private static void printBuyOders() {
+    private static void printBuyOrders() {
         buyOrdersList = ordersList.stream()
             .filter(el-> "buy".equals((el.getType()).toLowerCase()))
             .sorted(Comparator.comparingDouble(Order::getPrice).reversed())
@@ -137,5 +145,10 @@ public class Main {
         liveOrder();
     }
 
-
+    private static void printAllOrders(List<Order> list) {
+        list.forEach(el->
+            System.out.println("OrderID: " + list.indexOf(el) + " - " + el.getType().toUpperCase() + ": " + el.getQuantity() + " kg for £" + el.getPrice() + " [" + el.getUserId() + "]")
+        );
+        liveOrder();
+    }
 }

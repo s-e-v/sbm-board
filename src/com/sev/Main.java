@@ -1,11 +1,12 @@
 package com.sev;
 
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class Main {
-    private static ArrayList<Order> ordersList = new ArrayList<>();
+    private static List<Order> ordersList = new ArrayList<>();
 
     public static void main(String[] args) {
         liveOrder();
@@ -19,8 +20,8 @@ public class Main {
 
     private static void viewOrder() {
         System.out.println("These are our live orders.");
-        System.out.println(ordersList.get(0).getType());
-        liveOrder();
+        System.out.println("Would you like to view Buy or Sell orders?");
+        isViewBuyOrSell();
     }
 
     private static void enterOrder() {
@@ -73,4 +74,38 @@ public class Main {
             isViewOrAdd();
         }
     }
+
+    private static void isViewBuyOrSell() {
+        Scanner scan = new Scanner(System.in);
+        String viewBuyOrSell = scan.nextLine();
+        if (viewBuyOrSell.toLowerCase().equals("buy")) {
+            printBuyOders();
+        } else if (viewBuyOrSell.toLowerCase().equals("sell")){
+            printSellOrders();
+        } else {
+            System.out.println("There is something not right! Try again. View Buy or Sell orders?");
+            isViewBuyOrSell();
+        }
+    }
+
+    private static void printSellOrders() {
+        List<Order> newOrders = ordersList.stream()
+            .filter(el-> "sell".equals((el.getType()).toLowerCase()))
+            .collect(Collectors.toList());
+        printOrders(newOrders);
+    }
+
+    private static void printBuyOders() {
+        List<Order> newOrders = ordersList.stream()
+            .filter(el-> "buy".equals((el.getType()).toLowerCase()))
+            .collect(Collectors.toList());
+        printOrders(newOrders);
+    }
+
+    private static void printOrders(List<Order> list) {
+        list.forEach(el-> System.out.println(el.getQuantity() + " kg for £" + el.getPrice()));
+        liveOrder();
+    }
+
+
 }

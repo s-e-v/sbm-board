@@ -1,6 +1,7 @@
 package com.sev;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
@@ -91,6 +92,7 @@ public class Main {
     private static void printSellOrders() {
         List<Order> newOrders = ordersList.stream()
             .filter(el-> "sell".equals((el.getType()).toLowerCase()))
+            .sorted(Comparator.comparingDouble(Order::getPrice))
             .collect(Collectors.toList());
         printOrders(newOrders);
     }
@@ -98,6 +100,7 @@ public class Main {
     private static void printBuyOders() {
         List<Order> newOrders = ordersList.stream()
             .filter(el-> "buy".equals((el.getType()).toLowerCase()))
+            .sorted(Comparator.comparingDouble(Order::getPrice).reversed())
             .collect(Collectors.toList());
         printOrders(newOrders);
     }

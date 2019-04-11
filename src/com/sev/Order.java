@@ -2,11 +2,11 @@ package com.sev;
 
 public class Order {
     private int userId;
-    private int quantity;
+    private double quantity;
     private double price;
     private String type;
 
-    public Order(int id, int qty, double price, String type) {
+    public Order(int id, double qty, double price, String type) {
         this.userId = id;
         this.quantity = qty;
         this.price = price;
@@ -21,7 +21,7 @@ public class Order {
         this.userId = userId;
     }
 
-    public int getQuantity() {
+    public double getQuantity() {
         return quantity;
     }
 

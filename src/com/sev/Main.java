@@ -1,9 +1,6 @@
 package com.sev;
 
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Main {
@@ -58,7 +55,7 @@ public class Main {
         System.out.println("User ID? This is any integer number.");
         int userId = Integer.parseInt(scan.nextLine());
         System.out.println("Order quantity? This is any integer number.");
-        int quantity = Integer.parseInt(scan.nextLine());
+        double quantity = Integer.parseInt(scan.nextLine());
         System.out.println("Price? For example: 29.95");
         double price = Double.parseDouble(scan.nextLine());
         System.out.println("Order type? It should be either BUY or SELL");
@@ -141,7 +138,8 @@ public class Main {
     }
 
     private static void printOrders(List<Order> list) {
-        list.forEach(el-> System.out.println(el.getQuantity() + " kg for £" + el.getPrice()));
+        Map<Double, Double> orderMap = list.stream().collect(Collectors.groupingBy(Order::getPrice, Collectors.summingDouble(Order::getQuantity)));
+        orderMap.forEach((k, v)-> System.out.println(v + " kg for £" + k));
         liveOrder();
     }
 

@@ -8,6 +8,33 @@ import java.util.stream.Collectors;
 
 public class Main {
     private static List<Order> ordersList = new ArrayList<>();
+    private static List<Order> buyOrdersList = new ArrayList<>();
+
+    public static List<Order> getOrdersList() {
+        return ordersList;
+    }
+
+    public static void setOrdersList(List<Order> ordersList) {
+        Main.ordersList = ordersList;
+    }
+
+    public static List<Order> getBuyOrdersList() {
+        return buyOrdersList;
+    }
+
+    public static void setBuyOrdersList(List<Order> buyOrdersList) {
+        Main.buyOrdersList = buyOrdersList;
+    }
+
+    public static List<Order> getSellOrdersList() {
+        return sellOrdersList;
+    }
+
+    public static void setSellOrdersList(List<Order> sellOrdersList) {
+        Main.sellOrdersList = sellOrdersList;
+    }
+
+    private static List<Order> sellOrdersList = new ArrayList<>();
 
     public static void main(String[] args) {
         liveOrder();
@@ -90,19 +117,19 @@ public class Main {
     }
 
     private static void printSellOrders() {
-        List<Order> newOrders = ordersList.stream()
+        sellOrdersList = ordersList.stream()
             .filter(el-> "sell".equals((el.getType()).toLowerCase()))
             .sorted(Comparator.comparingDouble(Order::getPrice))
             .collect(Collectors.toList());
-        printOrders(newOrders);
+        printOrders(sellOrdersList);
     }
 
     private static void printBuyOders() {
-        List<Order> newOrders = ordersList.stream()
+        buyOrdersList = ordersList.stream()
             .filter(el-> "buy".equals((el.getType()).toLowerCase()))
             .sorted(Comparator.comparingDouble(Order::getPrice).reversed())
             .collect(Collectors.toList());
-        printOrders(newOrders);
+        printOrders(buyOrdersList);
     }
 
     private static void printOrders(List<Order> list) {

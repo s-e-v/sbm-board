@@ -54,8 +54,8 @@ public class Main {
         Scanner scan = new Scanner(System.in);
         System.out.println("User ID? This is any integer number.");
         int userId = Integer.parseInt(scan.nextLine());
-        System.out.println("Order quantity? This is any integer number.");
-        double quantity = Integer.parseInt(scan.nextLine());
+        System.out.println("Order quantity?");
+        double quantity = Double.parseDouble(scan.nextLine());
         System.out.println("Price? For example: 29.95");
         double price = Double.parseDouble(scan.nextLine());
         System.out.println("Order type? It should be either BUY or SELL");
